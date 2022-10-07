@@ -1,15 +1,15 @@
 const compoundList = []
 
-function iterationsWithFor(numbers, numberToMult, number, ite, sum) {
+function iterationsWithFor(numbers, numberToMult, number) {
     let count = 0
 
     for (let prime = 0; prime < numberToMult.length; prime++) {
         count++
         
         const result = numbers[number] * numberToMult[prime]
-        compoundList.push(result)
         const index = numbers.indexOf(result)
         if (index !== -1) numbers.splice(index, 1)
+        compoundList.push(result)
 
         const resultNext = numbers[number] * numberToMult[prime + 1]
         if( resultNext > numbers[numbers.length - 1]) {
