@@ -1,10 +1,13 @@
+const compoundList = []
+
 function iterationsWithFor(numbers, numberToMult, number, ite, sum) {
     let count = 0
 
-    for (let prime = 0 + sum; prime < numberToMult.length; prime += ite) {
+    for (let prime = 0; prime < numberToMult.length; prime++) {
         count++
         
         const result = numbers[number] * numberToMult[prime]
+        compoundList.push(result)
         const index = numbers.indexOf(result)
         if (index !== -1) numbers.splice(index, 1)
 
@@ -13,7 +16,11 @@ function iterationsWithFor(numbers, numberToMult, number, ite, sum) {
             numberToMult.shift()
             break
         }
-        
+
+        if(compoundList.includes(resultNext)) {
+            const indexMult = numberToMult.indexOf(numberToMult[prime + 1])
+            numberToMult.splice(indexMult, 1)
+        }
     }
     return count
 }
@@ -30,14 +37,8 @@ function validatePrimeNumbers() {
 
     for (let number = 0; number < numbers.length; number++) {
         count++
-
-        if(number % 2 !== 0) {
-            count += iterationsWithFor(numbers, numberToMult, number, 2, 0)
-        } else if (numbers[number] === 2) {
-            count += iterationsWithFor(numbers, numberToMult, number, 1, 0)
-        } else {
-            count += iterationsWithFor(numbers, numberToMult, number, 2, 1)
-        }
+        
+        count += iterationsWithFor(numbers, numberToMult, number)
 
         if (numbers[number + 1] * numbers[number + 1] > numbers[numbers.length - 1]) break
     }
