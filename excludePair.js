@@ -1,5 +1,32 @@
 const compoundList = []
 
+function excludePair (numbers, limit) {
+    let count = 0
+
+    for (let pair = 4; pair < limit; pair+=8) {
+        count++;
+        const index = numbers.indexOf(pair)
+        if (index !== -1) numbers.splice(index, 1)
+
+        if(pair + 2 <= limit ) {
+            const indexTwo = numbers.indexOf(pair + 2)
+            if (indexTwo !== -1) numbers.splice(indexTwo, 1)
+        }
+
+        if(pair + 4 <= limit ) {
+            const indexFour = numbers.indexOf(pair + 4)
+            if (indexFour !== -1) numbers.splice(indexFour, 1)
+        }
+
+        if(pair + 6 <= limit ) {
+            const indexFour = numbers.indexOf(pair + 6)
+            if (indexFour !== -1) numbers.splice(indexFour, 1)
+        }
+    }
+
+    return count
+}
+
 function iterationsWithFor(numbers, numberToMult, number) {
     let count = 0
 
@@ -33,14 +60,16 @@ function validatePrimeNumbers(limit) {
         numbers.push(i)
     }
 
+    count += excludePair(numbers, limit)
     const numberToMult = [...numbers]
+    numberToMult.shift()
 
-    for (let number = 0; number < numbers.length; number++) {
+    for (let number = 1; number < numbers.length; number++) {
         count++
         
         count += iterationsWithFor(numbers, numberToMult, number)
 
-        if (numbers[number + 1] * numbers[number + 1] > numbers[numbers.length - 1]) break
+        if (numbers[number + 1] * numberToMult[0] > numbers[numbers.length - 1]) break
     }
 
     return {numbers, count}
